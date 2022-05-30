@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World!</title>
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+</head>
+
+<body>
+  <h1>Encrypt data</h1>
+
+  <div>
+    <button id="button-save">Save</button>
+    <button id="button-load">Load</button>
+  </div><p></p>
+
+
+  <div id="main_div"></div>  
+
+  <!-- You can also require other files to run in this process -->
+  <!--<script src="./dist/renderer.js"></script>-->
+  <script>
+    require('../../../dist/rc_test/test_encrypt/encrypt_renderer.js');
+  </script>
+
+</body>
+
+</html>

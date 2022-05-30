@@ -1,0 +1,7 @@
+call json -I -f package.json -e this.name=\"ReadCloud\"
+call json -I -f package.json -e this.brand=\"rc\"
+call json -I -f package.json -e this.config.forge.packagerConfig.protocols[0].protocol=\"readcloud\"
+call json -I -f package.json -e this.config.forge.packagerConfig.protocols[0].name=\"readcloud\"
+call json -I -f package.json -e this.config.forge.packagerConfig.protocols[0].schemes=\"readcloud\"
+call json -I -f package.json -e this.config.forge.packagerConfig.icon=\"src/resources/app_icons/rc\"
+call json -I -f package.json -e this.config.forge.makers[0].config.name=\"ReadCloud\"

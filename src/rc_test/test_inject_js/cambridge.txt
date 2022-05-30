@@ -1,0 +1,126 @@
+var config = {
+  username: "#gigya-container input[name=username]",
+  continueBtn: "#gigya-container input[type=submit]",
+  loginBtn: "#gigya-container input[type=submit]",
+  password: "#gigya-container input[name=password]",
+};
+var credentials = {
+  username: "%U%",
+  password: "%P%",
+};
+function cb() {
+  try {
+    window.INTLOGIN.callback();
+  } catch (e) {}
+}
+function retryUntilSucceed(executor, maxRetries, interval) {
+  var _interval = interval || 300;
+  var _maxRetries = maxRetries || 20;
+  var currentRetries = 0;
+  if (!executor) return Promise.reject("Executor function is required");
+  return new Promise(function (resolve, reject) {
+    var intervalId = setInterval(function () {
+      if (currentRetries >= maxRetries) {
+        clearInterval(intervalId);
+        return reject("Max retry count reached");
+      }
+      try {
+        executor();
+        clearInterval(intervalId);
+        resolve();
+      } catch (e) {
+        currentRetries++;
+        console.warn(
+          "Failed to execute function. Trying again in " + _interval
+        );
+        console.warn(e);
+      }
+    }, _interval);
+  });
+}
+var styleEl = document.createElement("style");
+styleEl.innerHTML =
+  ".pulse-loader { height: 50px; margin: auto 0; position: relative; width: 50px; }";
+styleEl.innerHTML +=
+  ".pulse-loader:before, .pulse-loader:after { animation-name: pulse-loader; animation-iteration-count: infinite; animation-duration: 2s; box-shadow: 0 0 5px #6290d1; border-radius: 50%; border: 3px solid #6290d1; content: ''; display: block; height: 100%; left: 0; opacity: 0; position: absolute; top: 0; width: 100%; }";
+styleEl.innerHTML += " .pulse-loader:after { animation-delay: 1s; }";
+styleEl.innerHTML +=
+  "@keyframes pulse-loader { 0% { opacity: 0; transform: scale(0); } 60% { opacity: 1;  } 100% { opacity: 0; transform: scale(1); } }";
+document.head.appendChild(styleEl);
+var overlay = document.createElement("div");
+overlay.style.backgroundColor = "white";
+overlay.style.opacity = 0.8;
+overlay.style.position = "fixed";
+overlay.style.zIndex = 999999999;
+overlay.style.top = 0;
+overlay.style.left = 0;
+overlay.style.width = "100%";
+overlay.style.height = "100%";
+overlay.style.display = "flex";
+overlay.style.alignItems = "center";
+overlay.style.justifyContent = "center";
+var loader = document.createElement("div");
+loader.className = "pulse-loader";
+overlay.appendChild(loader);
+function hideBody() {
+  document.body.appendChild(overlay);
+}
+function showBody() {
+  document.body.removeChild(overlay);
+}
+hideBody();
+setTimeout(showBody, 10000);
+retryUntilSucceed(function () {
+  var username = document.querySelector(config.username);
+  var password = document.querySelector(config.password);
+  var loginBtn = document.querySelector(config.loginBtn);
+  if (
+    loginBtn &&
+    password &&
+    username &&
+    username.value &&
+    username.value.length
+  ) {
+    return;
+  }
+  if (!username) {
+    throw new Error("Username element not found");
+  }
+  username.value = credentials.username;
+  username.dispatchEvent(new Event("change"));
+  var continueBtn = document.querySelector(config.continueBtn);
+  if (!continueBtn) {
+    throw new Error("Continue button not found");
+  }
+  continueBtn.click();
+})
+  .then(function () {
+    return new Promise(function (resolve) {
+      return retryUntilSucceed(function () {
+        var password = document.querySelector(config.password);
+        password.value = credentials.password;
+        password.dispatchEvent(new Event("change"));
+        setTimeout(resolve, 3000);
+      });
+    });
+  })
+  .then(function () {
+    return new Promise(function (resolve) {
+      var loginBtn = document.querySelector(config.loginBtn);
+      loginBtn.click();
+      setTimeout(() => {
+        resolve();
+      }, 2000);
+    });
+  })
+  .then(function () {
+    return retryUntilSucceed(function () {
+      cb();
+    });
+  })
+  .catch(function (e) {
+    console.warn("Failed auto login");
+    console.warn(e);
+    cb();
+    showBody();
+  });

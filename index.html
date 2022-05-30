@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World!</title>
+  <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+  <!--<link rel="stylesheet" href="./src/rc_test/test_tabs/electron-tabs.css">-->
+  <script src="http://mozilla.github.io/pdf.js/build/pdf.js"></script>
+</head>
+
+<body>
+  <h1>Hello World!</h1>
+  We are using Node.js <span id="node-version"></span>, Chromium
+  <span id="chrome-version"></span>, and Electron
+  <span id="electron-version"></span>.
+
+  <div>
+    <button id="button-wc-to-na">Send message WC to NA</button>
+  </div><p></p>
+
+
+  <div id="main_div"></div>  
+  <canvas id="the-canvas"></canvas>
+
+  <!-- You can also require other files to run in this process -->
+  <!--script src="./dist/renderer.js"></!--script>-->
+  <script>
+    require('./dist/renderer.js');
+  </script>
+
+  <!--<script defer>
+   
+        var url = 'book://sample.pdf';    
+        var getRange = (url, start, end) => {
+          return fetch(url, {
+            headers: {
+              "Range" : `bytes=${start}-${end}`
+            }
+          });
+        };
+    
+    
+        let transport = new window.pdfjsLib.PDFDataRangeTransport(105255200, []);
+        transport.requestDataRange = function (begin, end) {
+          getRange("book://sample.pdf", begin, end).then((data) => {        
+            data.arrayBuffer().then(x => {
+              transport.onDataProgress(end);
+              transport.onDataRange(begin, x);
+            })        
+          });
+        };
+    
+        var loadingTask = pdfjsLib.getDocument(transport);
+    
+        loadingTask.promise.then(function (pdf) {
+          console.log('PDF loaded');
+    
+          // Loaded via <script> tag, create shortcut to access PDF.js exports.
+          var pdfjsLib = window['pdfjs-dist/build/pdf'];
+    
+          // The workerSrc property shall be specified.
+          pdfjsLib.GlobalWorkerOptions.workerSrc = 'http://mozilla.github.io/pdf.js/build/pdf.worker.js';
+    
+          // Asynchronous download of PDF
+    
+          // Fetch the first page
+          var pageNumber = 1;
+          pdf.getPage(pageNumber).then(function (page) {
+            console.log('Page loaded');
+    
+            var scale = 1.5;
+            var viewport = page.getViewport({ scale: scale });
+    
+            // Prepare canvas using PDF page dimensions
+            var canvas = document.getElementById('the-canvas');
+            var context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+    
+            // Render PDF page into canvas context
+            var renderContext = {
+              canvasContext: context,
+              viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function () {
+              console.log('Page rendered');
+            });
+          });
+        }, function (reason) {
+          // PDF loading error
+          console.error(reason);
+        });
+
+  </script>-->
+
+</body>
+
+</html>

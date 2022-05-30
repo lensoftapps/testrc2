@@ -1,0 +1,18 @@
+// This file is required by the index.html file and will
+// be executed in the renderer process for that window.
+// No Node.js APIs are available in this process unless
+// nodeIntegration is set to true in webPreferences.
+// Use preload.js to selectively enable features
+// needed in the renderer process.
+
+import { ipcRenderer } from "electron";
+
+document.body.addEventListener('click', () => {
+    //console.log('hello vscode!')    
+});
+
+document.getElementById("button-wc-to-na").addEventListener("click", sendDataFromWcToNa);
+
+function sendDataFromWcToNa(){
+    ipcRenderer.send("user:login", null);
+}

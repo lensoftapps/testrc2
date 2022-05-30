@@ -1,0 +1,8 @@
+call json -I -f package.json -e this.name=\"Winc_eBooks\"
+call json -I -f package.json -e this.brand=\"wi\"
+call json -I -f package.json -e this.config.forge.packagerConfig.protocols[0].protocol=\"omxebooks\"
+call json -I -f package.json -e this.config.forge.packagerConfig.protocols[0].name=\"omxebooks\"
+call json -I -f package.json -e this.config.forge.packagerConfig.protocols[0].schemes=\"omxebooks\"
+call json -I -f package.json -e this.config.forge.packagerConfig.icon=\"src/resources/app_icons/wi\"
+call json -I -f package.json -e this.config.forge.makers[0].config.name=\"WinceBooks\"
+rem call replace-in-files package.json --string='Winc_eBooks' --replacement="Winc eBooks"

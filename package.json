@@ -1,0 +1,106 @@
+{
+  "name": "Winc eBooks",
+  "version": "5.0.7",
+  "brand": "wi",
+  "main": "./dist/main.js",
+  "description": "School eBook Reader",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "eslint -c .eslintrc --ext .ts ./src",
+    "startf": "electron-forge start",
+    "start": "npm run build && electron ./dist/main.js",
+    "package": "electron-forge package",
+    "makewin": "electron-forge make --arch ia32",
+    "makeosx": "electron-forge make",
+    "packmsi": "npm run build && electron ./dist/packageMsi.js",
+    "build2": "electron-builder build --win --publish never",
+    "deploy2": "electron-builder build --win --publish always"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lensoftapps/testrc.git"
+  },
+  "keywords": [
+    "Electron",
+    "quick",
+    "start",
+    "tutorial",
+    "demo",
+    "typescript"
+  ],
+  "author": "ReadCloud",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.63",
+    "@electron-forge/maker-deb": "^6.0.0-beta.63",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+    "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "@types/tunnel": "^0.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "electron": "^17.4.6",
+    "electron-builder": "^23.0.3",
+    "electron-wix-msi": "^4.0.0",
+    "eslint": "^7.32.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "electron-is-dev": "^2.0.0",
+    "electron-log": "^4.4.6",
+    "electron-prompt": "^1.7.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-tabs": "^0.17.0",
+    "electron-updater": "^5.0.1",
+    "event-target-shim": "^6.0.2",
+    "jwt-decode": "^3.1.2",
+    "querystring": "^0.2.1",
+    "tunnel": "^0.0.6",
+    "update-electron-app": "^2.0.1"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "src/resources/app_icons/wi",
+        "protocols": [
+          {
+            "protocol": "omxebooks",
+            "name": "omxebooks",
+            "schemes": "omxebooks"
+          }
+        ],
+        "osxSign": {
+          "identity": "Developer ID Application: ReadCloud Pty Ltd (B578JPYLJ9)",
+          "hardened-runtime": true,
+          "entitlements": "entitlements.plist",
+          "entitlements-inherit": "entitlements.plist",
+          "signature-flags": "library"
+        }
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "WinceBooks"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  }
+}

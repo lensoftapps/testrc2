@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello World!</title>
+</head>
+
+<body>
+  <h1>Test webview</h1>
+  We are using Node.js <span id="node-version"></span>, Chromium
+  <span id="chrome-version"></span>, and Electron
+  <span id="electron-version"></span>.
+<p></p>
+<p></p>
+<p></p>
+  
+
+  
+
+  <!-- You can also require other files to run in this process -->
+  <!--<script src="./dist/renderer.js"></script>-->
+  <script>
+    require('./dist/renderer.js');
+  </script>
+
+<!--<script type = "text/javascript">
+  // Event handlers for loading events.
+  // Use these to handle loading screens, transitions, etc
+  onload = () => {
+     const webview = document.getElementById('foo')
+     const indicator = document.querySelector('.indicator')
+
+     const loadstart = () => {
+        indicator.innerText = 'loading...'
+        console.log("load start");
+     }
+
+     const loadstop = () => {
+        indicator.innerText = ''
+        console.log("load stop");
+     }
+
+     webview.addEventListener('did-start-loading', loadstart)
+     webview.addEventListener('did-stop-loading', loadstop)
+  }
+</script>-->
+  
+</body>
+
+</html>
